@@ -13,7 +13,16 @@ const todoList = [
   {id: 3,
     title: "Complete Warmup"
     
+  },
+  {id: 4,
+    title: "Complete Reading Syllabus"
+    
+  },
+  {id: 5,
+    title: "Complete updating resume"
+    
   }
+
 ]
 
 function App() {
