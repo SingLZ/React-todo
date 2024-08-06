@@ -1,7 +1,7 @@
-function TodoListItem(props) {
+function TodoListItem({item}) {
     return (
-        <li key={props.item.id}>
-            <span>{props.item.title}</span>
+        <li key={item.id}>
+            <span>{item.title}</span>
             </li>
     );
 }
