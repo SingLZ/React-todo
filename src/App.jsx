@@ -5,23 +5,86 @@ import AddTodoForm from './AddTodoForm';
 
 
 
+
 function App() {
   const [todoList, setTodoList] = 
   React.useState(JSON.parse(localStorage.getItem('savedTodoList')) || []);
   const [isLoading, setIsLoading] = 
   React.useState(true);
 
-  React.useEffect(() => {
-    function sideEffectHandler() {
-      return new Promise((resolve, reject) => {
-        setTimeout(()=> { resolve({ data: {todoList: todoList } })}, 2000);
-      });
+  const fetchData = async () => {
+
+    const options = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_API_TOKEN}`
+      }
+    };
+
+    const url = `https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`
+
+    console.log(url);
+
+    try {
+      const response = await fetch (url, options);
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      const todos = data.records.map(todo => ({
+          id: todo.id,
+          title: todo.fields.title
+      }));
+        
+      console.log(todos);
+
+      setTodoList(todos);
+      setIsLoading(false);
+    
+
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
-    sideEffectHandler()
-    .then((result) => {
-      setTodoList(result.data.todoList); // Updating the todoList state with fetched data
-      setIsLoading(false); // Setting loading to false after tasks are fetched
-    })
+
+  
+  };
+
+  const addTodoToAirtable = async (newTodo) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_API_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        fields: {
+          title: newTodo.title // Airtable field name should be 'title'
+        }
+      })
+    };
+
+    const url = `https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
+
+    try {
+      const response = await fetch(url, options);
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      // Add the new todo with Airtable's ID to the local state
+      setTodoList([...todoList, { id: data.id, title: data.fields.title }]);
+
+    } catch (error) {
+      console.error('Error adding todo to Airtable:', error.message);
+    }
+  };
+  
+  React.useEffect(() => {
+    fetchData();
 }, []);
 
   React.useEffect(() => {
@@ -33,7 +96,7 @@ function App() {
 
 
   function addTodo(newTodo){
-    setTodoList([...todoList, newTodo])
+    addTodoToAirtable(newTodo);
   }
 
   function removeTodo(id){
