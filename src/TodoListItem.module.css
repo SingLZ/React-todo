@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+.ListItem{
+    color: #A53F2B;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /*background-color: #F9E0D9; /* Light blue */
+    background: linear-gradient(135deg, #F9E0D9, #F3E8D3);
+    font-family: 'Fredoka One', sans-serif; /* Custom font from Google Fonts */
+    min-height: 100vh;
+    color: #2E4052;
+  }
+
+  .heading {
+    font-size: 2rem;
+    text-align: center;
+    font-weight: bold;
+    color: #2E4052;
+  }
+
+
+  .loading {
+    color: #2E4052;
+    text-align: center;
+  }
+
+  .title {
+    color: #2E4052;
+    margin: 1rem;
+  }
+
+  .todoList {
+    margin: 20px 0;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .addTodoForm {
+    text-align: center;
+  }
+
+
+  .input {
+    padding: 5rem;
+    margin: 5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 5px solid #2E4052;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .button {
+    background-color: #6290C3;
+    color: #3A504A;
+    padding: 0.5rem 0.5rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .button:hover {
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+  }
+
+  /* Responsive Screen adjust for different screen size */
+  @media (max-width: 600px) {
+    .body {
+      padding: 1rem;
+    }
+  
+    .heading {
+      font-size: 1.5rem;
+    }
+  }
+
